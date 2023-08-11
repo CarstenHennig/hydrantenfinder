@@ -14,8 +14,8 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-input[type="text"] {
-    width: 100%;
+.addressInput {
+    width: 150%;
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
@@ -34,6 +34,7 @@ button {
 #map {
     height: 400px;
     margin-top: 20px;
+    border: 1px solid black;
 }
 
 #history {
