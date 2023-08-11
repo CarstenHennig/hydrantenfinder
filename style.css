@@ -34,7 +34,7 @@ button {
 #map {
     height: 400px;
     margin-top: 20px;
-    border: 1px solid black;
+    border: 1px solid lightgrey;
 }
 
 #history {
