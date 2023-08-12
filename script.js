@@ -29,7 +29,7 @@ searchButton.addEventListener('click', () => {
     const address = addressInput.value;
 
     // Fetch latitude and longitude from geocoding API
-    const apiUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`;
+    const apiUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=5`;
 
     fetch(apiUrl)
         .then(response => response.json())
@@ -56,7 +56,7 @@ searchButton.addEventListener('click', () => {
                 updateHistoryList();
             } else {
                 console.error('Geocoding API error: No results found');
-                window.alert('Geocoding API error: No results found');
+                window.alert('Geocoding API error: No results found. Please try again!');
             }
         })
         .catch(error => {
