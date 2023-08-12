@@ -4,11 +4,13 @@ const historyList = document.getElementById('historyList');
 const mapDiv = document.getElementById('map');
 
 let map;
-let history = [];
-let lat;
-let lng;
+let searchHistory = [];
 
 function initMap(lat, lng) {
+    if (map) {
+        map.remove();
+    };
+
     map = L.map(mapDiv).setView([lat, lng], 15);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
     L.marker([lat, lng]).addTo(map);
@@ -16,17 +18,17 @@ function initMap(lat, lng) {
 
 function updateHistoryList() {
     historyList.innerHTML = '';
-    history.forEach(item => {
+    searchHistory.forEach(item => {
         const li = document.createElement('li');
         li.textContent = item;
         historyList.appendChild(li);
     });
 }
-searchButton.addEventListener('click', () => {
-    console.log("searchButton was clicked");
-    const address = addressInput.value;
-    console.log("Address input value: ", address);
 
+searchButton.addEventListener('click', () => {
+    const address = addressInput.value;
+
+    // Fetch latitude and longitude from geocoding API
     const apiUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`;
 
     fetch(apiUrl)
@@ -40,14 +42,21 @@ searchButton.addEventListener('click', () => {
                 console.log('Latitude:', lat);
                 console.log('Longitude:', lng);
 
-                // Call initMap with the obtained latitude and longitude
                 initMap(lat, lng);
 
-                // Update history and history list
-                history.push(address);
+                // Add search entry to history
+                searchHistory.unshift(address);
+
+                // Keep only the last 20 search entries
+                if (searchHistory.length > 20) {
+                    searchHistory.pop();
+                }
+
+                // Update history list
                 updateHistoryList();
             } else {
                 console.error('Geocoding API error: No results found');
+                window.alert('Geocoding API error: No results found');
             }
         })
         .catch(error => {
