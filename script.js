@@ -26,10 +26,6 @@ searchButton.addEventListener('click', () => {
     console.log("searchButton was clicked");
     const address = addressInput.value;
     console.log("Address input value: ", address);
-    // You would use a geocoding service API here to get latitude and longitude
-    // For simplicity, let's assume you have the lat/lng already.
-    // const lat = 51.500620; // Example latitude
-    // const lng = 7.522520; // Example longitude
 
     const apiUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`;
 
@@ -43,6 +39,13 @@ searchButton.addEventListener('click', () => {
                 // Now you can use lat and lng in your application
                 console.log('Latitude:', lat);
                 console.log('Longitude:', lng);
+
+                // Call initMap with the obtained latitude and longitude
+                initMap(lat, lng);
+
+                // Update history and history list
+                history.push(address);
+                updateHistoryList();
             } else {
                 console.error('Geocoding API error: No results found');
             }
@@ -50,9 +53,4 @@ searchButton.addEventListener('click', () => {
         .catch(error => {
             console.error('An error occurred:', error);
         });
-
-    initMap([lat], [lng]);
-
-    history.push(address);
-    updateHistoryList();
 });
