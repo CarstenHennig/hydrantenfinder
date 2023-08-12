@@ -5,6 +5,15 @@ body {
     background-color: #f4f4f4;
 }
 
+.inline-container {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* addressMarker {
+    z-index: 1000;
+} */
+
 .container {
     max-width: 800px;
     margin: 0 auto;
@@ -16,15 +25,15 @@ body {
 
 .addressInput {
     width: 150%;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 5px;
+    margin-bottom: 2px;
     border: 1px solid #ccc;
     border-radius: 3px;
 }
 
 button {
-    padding: 10px 20px;
-    background-color: #007bff;
+    padding: 5px 5px;
+    background-color: red;
     color: white;
     border: none;
     border-radius: 3px;
@@ -34,7 +43,7 @@ button {
 #map {
     height: 400px;
     margin-top: 20px;
-    border: 1px solid lightgrey;
+    /* border: 1px solid lightgrey; */
 }
 
 #history {

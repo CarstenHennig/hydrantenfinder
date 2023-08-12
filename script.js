@@ -44,6 +44,36 @@ searchButton.addEventListener('click', () => {
 
                 initMap(lat, lng);
 
+                // Create a custom icon for the address marker
+                const addressIcon = L.icon({
+                    iconUrl: 'logo-ff-poeseldorf.png', // Path to your custom marker icon
+                    iconSize: [48, 48],
+                });
+
+                // Create the address marker with the custom icon
+                const addressMarker = L.marker([lat, lng], { icon: addressIcon }).addTo(map);
+
+                // Fetch water hydrants using Overpass API
+                const overpassApiUrl = `https://overpass-api.de/api/interpreter?data=[out:json];node["emergency"="fire_hydrant"](around:1000,${lat},${lng});out;`;
+
+                fetch(overpassApiUrl)
+                    .then(response => response.json())
+                    .then(overpassData => {
+                        // Process the returned water hydrant data here
+                        console.log('Water hydrants:', overpassData);
+                        // You can extract coordinates and display markers on the map
+                        // Extract and display water hydrants on the map
+                        overpassData.elements.forEach(element => {
+                            if (element.lat && element.lon) {
+                                const marker = L.marker([element.lat, element.lon]).addTo(map);
+                                // You can customize the marker's appearance or tooltip here
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error('An error occurred:', error);
+                    });
+
                 // Add search entry to history
                 searchHistory.unshift(address);
 
