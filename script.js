@@ -9,7 +9,7 @@ let searchHistory = [];
 function initMap(lat, lng) {
     if (map) {
         map.remove();
-    };
+    }
 
     map = L.map(mapDiv).setView([lat, lng], 15);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
@@ -27,6 +27,11 @@ function updateHistoryList() {
 
 searchButton.addEventListener('click', () => {
     const address = addressInput.value;
+
+    if (!address) {
+        window.alert('Please enter an address.');
+        return;
+    }
 
     // Fetch latitude and longitude from geocoding API
     const apiUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=5`;

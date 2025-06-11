@@ -3,7 +3,7 @@
 * Clone repo
 * Check if all files are on your machine; compare with the GH repo
 * Start application by double click on the html file
-* You need a stable web connection to run the appliaction; maybe there'll be some redundances with the OpenStreep map API
+* You need a stable web connection to run the application; maybe there'll be some redundancies with the OpenStreet map API
 
 # Or use the first web app for my fire brigade:
 ## https://carstenhennig.github.io/f1938hydrantenfinder
