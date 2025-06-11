@@ -4,6 +4,7 @@ const historyList = document.getElementById('historyList');
 const mapDiv = document.getElementById('map');
 
 let map;
+let hydrantLayer;
 let searchHistory = [];
 
 function initMap(lat, lng) {
@@ -14,6 +15,24 @@ function initMap(lat, lng) {
     map = L.map(mapDiv).setView([lat, lng], 15);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
     L.marker([lat, lng]).addTo(map);
+}
+
+function loadHydrants(lat, lng) {
+    const query = `[out:json];node["emergency"="fire_hydrant"](around:500,${lat},${lng});out;`;
+    const url = 'https://overpass-api.de/api/interpreter?data=' + encodeURIComponent(query);
+
+    fetch(url)
+        .then(resp => resp.json())
+        .then(data => {
+            if (!hydrantLayer) {
+                hydrantLayer = L.layerGroup().addTo(map);
+            }
+            hydrantLayer.clearLayers();
+            data.elements.forEach(el => {
+                L.circleMarker([el.lat, el.lon], { radius: 6, color: 'red' }).addTo(hydrantLayer);
+            });
+        })
+        .catch(err => console.error('Hydrant fetch error:', err));
 }
 
 function updateHistoryList() {
@@ -43,6 +62,7 @@ searchButton.addEventListener('click', () => {
                 console.log('Longitude:', lng);
 
                 initMap(lat, lng);
+                loadHydrants(lat, lng);
 
                 // Add search entry to history
                 searchHistory.unshift(address);
